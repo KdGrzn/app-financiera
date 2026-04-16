@@ -79,7 +79,7 @@ export default function Login() {
         {!isLogin && (
           <div className="mb-4">
             <Label htmlFor="name" className="mb-1.5 block font-semibold text-foreground">
-              Nombre Completo
+              Nombre completo
             </Label>
             <Input
               id="name"
@@ -96,7 +96,7 @@ export default function Login() {
 
         <div className="mb-4">
           <Label htmlFor="email" className="mb-1.5 block font-semibold text-foreground">
-            Correo Electrónico
+            Correo electrónico
           </Label>
           <Input
             id="email"
@@ -159,7 +159,7 @@ export default function Login() {
             <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
             <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
           </svg>
-          Iniciar Sesión con Google
+          Iniciar sesión con Google
         </Button>
 
         <p className="mt-5 text-center text-sm text-muted-foreground">
@@ -176,9 +176,9 @@ export default function Login() {
 
       <p className="mt-6 text-center text-xs text-muted-foreground">
         Al registrarte, aceptas nuestros{' '}
-        <Link to="#" className="font-medium text-primary hover:underline">Términos de Servicio</Link>
+        <Link to="#" className="font-medium text-primary hover:underline">Términos de servicio</Link>
         {' '}y{' '}
-        <Link to="#" className="font-medium text-primary hover:underline">Política de Privacidad</Link>
+        <Link to="#" className="font-medium text-primary hover:underline">política de privacidad.</Link>
       </p>
     </div>
   );
