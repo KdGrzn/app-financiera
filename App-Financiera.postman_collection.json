@@ -1,0 +1,213 @@
+{
+	"info": {
+		"_postman_id": "app-financiera-collection",
+		"name": "App Financiera API",
+		"description": "Colección de endpoints para la aplicación de gestión financiera personal.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "usuarioId",
+			"value": "1",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Registrar usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Juan Pérez\",\n    \"correo\": \"juan@correo.com\",\n    \"password\": \"12345678\",\n    \"moneda\": \"COP\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/usuarios/registro",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "usuarios", "registro"]
+						},
+						"description": "Registra un nuevo usuario. El correo debe ser único y el password mínimo 8 caracteres."
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"correo\": \"juan@correo.com\",\n    \"password\": \"12345678\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/usuarios/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "usuarios", "login"]
+						},
+						"description": "Inicia sesión con correo y password. Retorna el usuario si las credenciales son correctas."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener usuario por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/usuarios/{{usuarioId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "usuarios", "{{usuarioId}}"]
+						},
+						"description": "Obtiene la información de un usuario por su ID."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categorías",
+			"item": [
+				{
+					"name": "Crear categoría",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Alimentación\",\n    \"tipo\": \"GASTO\",\n    \"usuario\": {\n        \"id\": {{usuarioId}}\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/categorias",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "categorias"]
+						},
+						"description": "Crea una nueva categoría. El tipo puede ser INGRESO o GASTO."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar categorías por usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/categorias/usuario/{{usuarioId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "categorias", "usuario", "{{usuarioId}}"]
+						},
+						"description": "Obtiene todas las categorías de un usuario."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transacciones",
+			"item": [
+				{
+					"name": "Crear transacción (Gasto)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"monto\": 50000,\n    \"descripcion\": \"Compra de mercado\",\n    \"fecha\": \"2026-04-04\",\n    \"tipo\": \"GASTO\",\n    \"usuario\": {\n        \"id\": {{usuarioId}}\n    },\n    \"categoria\": {\n        \"id\": 1\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/transacciones",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "transacciones"]
+						},
+						"description": "Crea una transacción de tipo GASTO. El monto debe ser > 0 y la fecha no puede ser futura."
+					},
+					"response": []
+				},
+				{
+					"name": "Crear transacción (Ingreso)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"monto\": 2000000,\n    \"descripcion\": \"Salario mensual\",\n    \"fecha\": \"2026-04-01\",\n    \"tipo\": \"INGRESO\",\n    \"usuario\": {\n        \"id\": {{usuarioId}}\n    },\n    \"categoria\": {\n        \"id\": 2\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/transacciones",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "transacciones"]
+						},
+						"description": "Crea una transacción de tipo INGRESO. El monto debe ser > 0 y la fecha no puede ser futura."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar transacciones por usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/transacciones/usuario/{{usuarioId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "transacciones", "usuario", "{{usuarioId}}"]
+						},
+						"description": "Obtiene todas las transacciones de un usuario en orden cronológico."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Balance",
+			"item": [
+				{
+					"name": "Obtener balance del usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/balance/usuario/{{usuarioId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "balance", "usuario", "{{usuarioId}}"]
+						},
+						"description": "Retorna el balance financiero del usuario con monto, color de estado y mensaje. Colores: Verde Esmeralda (positivo), Rojo Alerta (negativo), Gris/Negro (neutro)."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
