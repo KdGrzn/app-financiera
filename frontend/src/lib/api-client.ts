@@ -1,6 +1,22 @@
-import type { Transaccion, BalanceResponse, Categoria } from './api-types';
+import type {
+  Transaccion,
+  BalanceResponse,
+  Categoria,
+  GastoHormigaResumen,
+  GastoHormigaHistoricoMes,
+} from './api-types';
+import {
+  mockGastoHormigaResumen,
+  mockGastosHormigaLista,
+  mockGastoHormigaHistorico,
+  mockActualizarLimite,
+} from './ant-expenses-mocks';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://gestion-financiera-personal-mi90.onrender.com';
+
+// HU-21: mock activo hasta que el backend implemente los endpoints.
+// Desactivar con VITE_MOCK_ANT_EXPENSES=false en .env.local.
+const USE_ANT_EXPENSES_MOCK = import.meta.env.VITE_MOCK_ANT_EXPENSES !== 'false';
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE_URL}${path}`, {
@@ -36,5 +52,40 @@ export function crearTransaccion(transaccion: Transaccion): Promise<Transaccion>
   return request<Transaccion>('/api/transacciones', {
     method: 'POST',
     body: JSON.stringify(transaccion),
+  });
+}
+
+// HU-21: Resumen + recomendación de gastos hormiga
+export function fetchGastoHormigaResumen(usuarioId: number): Promise<GastoHormigaResumen> {
+  if (USE_ANT_EXPENSES_MOCK) return mockGastoHormigaResumen();
+  return request<GastoHormigaResumen>(`/api/usuarios/${usuarioId}/gastos-hormiga/resumen`);
+}
+
+// HU-21: Lista de transacciones clasificadas como gasto hormiga
+export function fetchGastosHormigaLista(usuarioId: number): Promise<Transaccion[]> {
+  if (USE_ANT_EXPENSES_MOCK) return mockGastosHormigaLista();
+  return request<Transaccion[]>(`/api/usuarios/${usuarioId}/gastos-hormiga`);
+}
+
+// HU-21: Histórico mensual de gastos hormiga
+export function fetchGastoHormigaHistorico(
+  usuarioId: number,
+  meses: number = 6,
+): Promise<GastoHormigaHistoricoMes[]> {
+  if (USE_ANT_EXPENSES_MOCK) return mockGastoHormigaHistorico(meses);
+  return request<GastoHormigaHistoricoMes[]>(
+    `/api/usuarios/${usuarioId}/gastos-hormiga/historico?meses=${meses}`,
+  );
+}
+
+// HU-21: Actualizar el límite de gasto hormiga del usuario
+export function actualizarLimiteGastoHormiga(
+  usuarioId: number,
+  limite: number,
+): Promise<GastoHormigaResumen> {
+  if (USE_ANT_EXPENSES_MOCK) return mockActualizarLimite(limite);
+  return request<GastoHormigaResumen>(`/api/usuarios/${usuarioId}/gastos-hormiga/limite`, {
+    method: 'PUT',
+    body: JSON.stringify({ limite }),
   });
 }

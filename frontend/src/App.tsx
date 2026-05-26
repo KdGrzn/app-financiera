@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import AddExpense from "./pages/AddExpense";
 import AddIncome from "./pages/AddIncome";
 import Budgets from "./pages/Budgets";
+import GastosHormiga from "./pages/GastosHormiga";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/add-expense" element={<AddExpense />} />
           <Route path="/add-income" element={<AddIncome />} />
           <Route path="/budgets" element={<Budgets />} />
+          <Route path="/gastos-hormiga" element={<GastosHormiga />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
